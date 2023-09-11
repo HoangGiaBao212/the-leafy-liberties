@@ -140,15 +140,22 @@
           </div>
           <div>
            Discount codes: 
-            <?php 
+           <?php
               $coupon = Coupon::find($order->coupon_id);
-              echo $coupon->code
+              if ($coupon) {
+                $sumDiscount = $order->total_price * ($coupon->percent / 100);
+                echo $coupon->code;
+                echo "  $" . number_format($sumDiscount, 2);
+              } else {
+                echo "Mã giảm giá không hợp lệ.";
+              }
             ?>
             <br/>
             Shipping methods:
             <?php 
               $shippingMethod = ShippingMethod::find($order->shipping_method_id);
-              echo $shippingMethod->name
+              echo $shippingMethod->name;
+              echo "  $" . $shippingMethod->price;
             ?>     
             <br/>
             Tax:
@@ -158,12 +165,12 @@
             if ($setting) {
               $tax = $setting->value / 100;
             }
-            echo "\$ $tax"
+            echo "\$$tax"
             ?>   
             <br/>
             Grand total: 
             <?php 
-             echo "\$ $order->total_price";
+             echo "\$$order->total_price";
             ?> 
           </div>
           <?php if ($order->status == 0 || $order->status == 4 || $order->status == 1) {
