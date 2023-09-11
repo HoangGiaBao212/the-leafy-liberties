@@ -55,21 +55,21 @@ $menu = [
     "icon" => "fa-list",
     "url" => BASE_URI . "/dashboard/category",
   ],
-  // "coupon.access" => [
-  //   "name" => "Coupons",
-  //   "icon" => "fa-ticket",
-  //   "url" => BASE_URI . "/dashboard/coupon",
-  // ],
+  "coupon.access" => [
+    "name" => "Coupons",
+    "icon" => "fa-ticket",
+    "url" => BASE_URI . "/dashboard/coupon",
+  ],
   "slide.access" => [
     "name" => "Slides",
     "icon" => "fa-sliders",
     "url" => BASE_URI . "/dashboard/slide",
   ],
-  // "setting.access" => [
-  //   "name" => "Settings",
-  //   "icon" => "fa-cog",
-  //   "url" => BASE_URI . "/dashboard/setting",
-  // ]
+  "setting.access" => [
+    "name" => "Settings",
+    "icon" => "fa-cog",
+    "url" => BASE_URI . "/dashboard/setting",
+  ]
 ];
 
 foreach ($menu as $key => $menuItem) {
