@@ -172,7 +172,7 @@ LIMIT 1;
           <?php endforeach; ?>
         </div>
       </div>
-      <div
+      <!-- <div
         class="flex items-start justify-between flex-col w-full p-5 mt-5 border-0 shadow-lg discount-container rounded-2xl shadow-gray-300 md:w-full xl:w-3/4">
         <div class="mb-5 text-xl font-bold discount-code">
           <h2>Discount Codes</h2>
@@ -200,7 +200,7 @@ LIMIT 1;
             <i class="fa-solid fa-x text-md"></i>
           </div>
         <?php endif; ?>
-      </div>
+      </div> -->
       <div class="w-full p-5 mt-5 border-0 shadow-lg billing-summary rounded-2xl shadow-gray-300 md:w-full xl:w-3/4">
         <div class="flex items-start justify-between header">
           <div class="mb-5 text-xl font-bold">
@@ -234,7 +234,7 @@ LIMIT 1;
               <h2 class="text-lg font-medium">Grand Total</h2>
               <div class="font-bold grand-money">
                 $
-                <?php echo number_format($grandTotal - $sumDiscount, 2) ?>
+                <?php echo number_format($grandTotal, 2) ?>
               </div>
             </div>
             <fieldset class="border-[1px] border-gray-600 border-solid rounded-md p-1 mr-10 w-full h-auto mt-4">
