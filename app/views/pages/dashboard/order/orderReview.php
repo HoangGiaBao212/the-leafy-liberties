@@ -5,7 +5,9 @@
       <?php
 
       use App\Models\OrderProduct;
-
+      use App\Models\Coupon;
+      use App\Models\ShippingMethod;
+      use App\Models\Setting;
       ?>
 
       <div class="w-full mx-auto my-0">
@@ -135,6 +137,34 @@
                 </tbody>
               </table>
             </div>
+          </div>
+          <div>
+           Discount codes: 
+            <?php 
+              $coupon = Coupon::find($order->coupon_id);
+              echo $coupon->code
+            ?>
+            <br/>
+            Shipping methods:
+            <?php 
+              $shippingMethod = ShippingMethod::find($order->shipping_method_id);
+              echo $shippingMethod->name
+            ?>     
+            <br/>
+            Tax:
+            <?php 
+            $tax = 0;
+            $setting = Setting::findOne(["name" => "tax"]);
+            if ($setting) {
+              $tax = $setting->value / 100;
+            }
+            echo "\$ $tax"
+            ?>   
+            <br/>
+            Grand total: 
+            <?php 
+             echo "\$ $order->total_price";
+            ?> 
           </div>
           <?php if ($order->status == 0 || $order->status == 4 || $order->status == 1) {
             ?>
