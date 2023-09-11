@@ -1,0 +1,79 @@
+CREATE TABLE `authors` (
+  `author_id` int(11) NOT NULL AUTO_INCREMENT,
+  `author_name` varchar(100) NOT NULL,
+  `author_description` varchar(500) NOT NULL,
+  PRIMARY KEY (`author_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+
+CREATE TABLE `books` (
+  `title` varchar(100) NOT NULL,
+  `description` varchar(500) NOT NULL,
+  `image` char(255) NOT NULL,
+  `price` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `status` enum('available','unavailable','deleted') NOT NULL DEFAULT 'available',
+  `author_id` int(11) NOT NULL,
+  `publisher_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+
+CREATE TABLE `carts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `status` enum('shopping','pending','reject','accept') NOT NULL DEFAULT 'shopping',
+  `quantity` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+
+	
+CREATE TABLE `coupon` (
+  `coupon_id` int(11) NOT NULL AUTO_INCREMENT,
+  `coupon_name` varchar(50) NOT NULL,
+  `active` timestamp NOT NULL DEFAULT current_timestamp(),
+  `expired` timestamp NOT NULL DEFAULT current_timestamp(),
+  `quantity` int(10) NOT NULL,
+  `description` varchar(500) NOT NULL,
+  PRIMARY KEY (`coupon_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cart_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
+  `paid` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` enum('pending') NOT NULL DEFAULT 'pending',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `status` enum('active','inactive','banned') NOT NULL DEFAULT 'active',
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(10) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `role` enum('admin','customer') NOT NULL DEFAULT 'customer',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+
+CREATE TABLE `publisher` (
+  `publisher_id` int(11) NOT NULL AUTO_INCREMENT,
+  `publisher_name` varchar(100) NOT NULL,
+  `publisher_description` varchar(500) NOT NULL,
+  PRIMARY KEY (`publisher_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
