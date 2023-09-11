@@ -35,11 +35,11 @@ $menu = [
     "icon" => "fa-shopping-cart",
     "url" => BASE_URI . "/dashboard/order",
   ],
-  "permission.access" => [
-    "name" => "Permissions",
-    "icon" => "fa-user-lock",
-    "url" => BASE_URI . "/dashboard/permission",
-  ],
+  // "permission.access" => [
+  //   "name" => "Permissions",
+  //   "icon" => "fa-user-lock",
+  //   "url" => BASE_URI . "/dashboard/permission",
+  // ],
   "role.access" => [
     "name" => "Roles",
     "icon" => "fa-user-plus",
@@ -65,11 +65,11 @@ $menu = [
     "icon" => "fa-sliders",
     "url" => BASE_URI . "/dashboard/slide",
   ],
-  "setting.access" => [
-    "name" => "Settings",
-    "icon" => "fa-cog",
-    "url" => BASE_URI . "/dashboard/setting",
-  ]
+  // "setting.access" => [
+  //   "name" => "Settings",
+  //   "icon" => "fa-cog",
+  //   "url" => BASE_URI . "/dashboard/setting",
+  // ]
 ];
 
 foreach ($menu as $key => $menuItem) {
