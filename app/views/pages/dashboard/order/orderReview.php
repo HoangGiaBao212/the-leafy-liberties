@@ -8,6 +8,7 @@
       use App\Models\Coupon;
       use App\Models\ShippingMethod;
       use App\Models\Setting;
+      $totalMoney=0;
       ?>
 
       <div class="w-full mx-auto my-0">
@@ -103,7 +104,9 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <?php foreach (OrderProduct::findAll(['order_id' => $order->id]) as $orderProduct): ?>
+                  <?php foreach (OrderProduct::findAll(['order_id' => $order->id]) as $orderProduct):
+                    $totalMoney+= $orderProduct->product()->price;
+                    ?>
                     <tr class="text-center transition-opacity bg-white border-b hover:bg-gray-200 even:bg-gray-100">
                       <td class="px-5 py-3">
                         <?php echo $orderProduct->id; ?>
@@ -143,7 +146,7 @@
            <?php
               $coupon = Coupon::find($order->coupon_id);
               if ($coupon) {
-                $sumDiscount = $order->total_price * ($coupon->percent / 100);
+                $sumDiscount = $totalMoney * ($coupon->percent / 100);
                 echo $coupon->code;
                 echo "  $" . number_format($sumDiscount, 2);
               } else {
@@ -164,7 +167,7 @@
             $setting = Setting::findOne(["name" => "tax"]);
             if ($setting) {
               $tax = $setting->value / 100;
-              $taxMoney = number_format(($order->total_price * $tax) / 10, 2);
+              $taxMoney = number_format(($totalMoney * $tax) / 10, 2);
             }
             echo "\$$taxMoney"
             ?>   
