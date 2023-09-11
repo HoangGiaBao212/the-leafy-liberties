@@ -138,7 +138,7 @@
               </table>
             </div>
           </div>
-          <div>
+          <div class="text-xl">
            Discount codes: 
            <?php
               $coupon = Coupon::find($order->coupon_id);
