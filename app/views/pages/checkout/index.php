@@ -246,7 +246,7 @@ LIMIT 1;
               class="btn-pay w-full bg-[#2e524e] text-center p-2 text-white rounded-lg mt-5 cursor-pointer hover:bg-[#52938d] hover:transition-all">
               <button type="submit" class="text-xl grand-total w-full h-full">
                 Pay $
-                <?php echo number_format($grandTotal - $sumDiscount + $taxMoney, 2) ?>
+                <?php echo number_format($grandTotal, 2) ?>
               </button>
             </div>
           </div>
@@ -295,7 +295,7 @@ LIMIT 1;
   let grand_total = document.querySelector(".grand-total");
   let grand_money = document.querySelector(".grand-money");
   let subtotal = document.querySelector(".subtotal-money");
-  let taxMoney = 0, sum = 0, discountMoney = 0
+  let taxMoney = 0, sum = 0
   subtotal = subtotal.innerHTML.replace("$", "");
   choices.forEach((element, index) => {
     element.addEventListener("click", () => {
@@ -303,12 +303,9 @@ LIMIT 1;
       if (option.checked == true) {
         shipping_money.innerHTML = "$" + ship_method[index];
         taxMoney = tax.innerHTML.replace("$", "");
-        console.log(taxMoney)
-        discountMoney = discount.innerHTML.replace("$", "")
-        console.log(discountMoney);
         sum = (parseFloat(subtotal) + parseFloat(ship_method[index]) + parseFloat(taxMoney)).toFixed(2)
-        grand_money.innerHTML = "$ " + parseFloat(sum - discountMoney).toFixed(2);
-        grand_total.innerHTML = "Pay $ " + parseFloat(sum - discountMoney).toFixed(2);
+        grand_money.innerHTML = "$ " + parseFloat(sum).toFixed(2);
+        grand_total.innerHTML = "Pay $ " + parseFloat(sum).toFixed(2);
       }
     })
   });
