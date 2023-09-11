@@ -234,7 +234,7 @@ LIMIT 1;
               <h2 class="text-lg font-medium">Grand Total</h2>
               <div class="font-bold grand-money">
                 $
-                <?php echo number_format($grandTotal - $sumDiscount + $taxMoney, 2) ?>
+                <?php echo number_format($grandTotal - $sumDiscount, 2) ?>
               </div>
             </div>
             <fieldset class="border-[1px] border-gray-600 border-solid rounded-md p-1 mr-10 w-full h-auto mt-4">
@@ -246,7 +246,7 @@ LIMIT 1;
               class="btn-pay w-full bg-[#2e524e] text-center p-2 text-white rounded-lg mt-5 cursor-pointer hover:bg-[#52938d] hover:transition-all">
               <button type="submit" class="text-xl grand-total w-full h-full">
                 Pay $
-                <?php echo number_format($grandTotal - $sumDiscount + $taxMoney, 2) ?>
+                <?php echo number_format($grandTotal - $sumDiscount, 2) ?>
               </button>
             </div>
           </div>
