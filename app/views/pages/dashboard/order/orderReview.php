@@ -164,8 +164,9 @@
             $setting = Setting::findOne(["name" => "tax"]);
             if ($setting) {
               $tax = $setting->value / 100;
+              $taxMoney = number_format(($order->total_price * $tax) / 10, 2);
             }
-            echo "\$$tax"
+            echo "\$$taxMoney"
             ?>   
             <br/>
             Grand total: 
