@@ -1,4 +1,5 @@
 <?php
+
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -55,6 +56,9 @@ foreach ($successfulOrder as $order) {
           Dashboard
         </h1>
       </div>
+      <div>
+
+      </div>
       <div class="box-border grid top-wrap 2xl:grid-cols-4 xl:gap-5 lg:grid-cols-2 lg:gap-2">
         <?php
         $text = ["Sales", "Pending", "New Users", "New Orders"];
@@ -91,9 +95,7 @@ foreach ($successfulOrder as $order) {
 
               </p>
             </div>
-            <div class="icon w-20 border-solid p-5 rounded-2xl text-center <?php echo $class[
-              $i - 1
-            ]; ?>">
+            <div class="icon w-20 border-solid p-5 rounded-2xl text-center <?php echo $class[$i - 1]; ?>">
               <i class="<?php echo $icon[$i - 1]; ?> fa-xl text-white"></i>
             </div>
           </div>
@@ -108,9 +110,7 @@ foreach ($successfulOrder as $order) {
             </div>
             <div class="p-2 rounded-md chart-type hover:bg-slate-50">
               <label for="chart-type" class="font-medium text-black">Choose a type:</label>
-              <select name="chart-ttype" id="c-type"
-                class="px-4 py-1 rounded-md appearance-none focus:ring-2 focus:ring-primary-600 bg-gray-50"
-                onchange="ChangeChart(this)">
+              <select name="chart-ttype" id="c-type" class="px-4 py-1 rounded-md appearance-none focus:ring-2 focus:ring-primary-600 bg-gray-50" onchange="ChangeChart(this)">
                 <option value="bar">Bar Chart</option>
                 <option value="line">Line Chart</option>
                 <option value="area">Area Chart</option>
@@ -126,20 +126,18 @@ foreach ($successfulOrder as $order) {
             <?php
             $colors = ["red", "blue", "green", "yellow", "pink", "orange", "white", "gray", "brown"];
             ?>
-            <?php foreach ($categorySold as $item):
+            <?php foreach ($categorySold as $item) :
               $name = Category::findOne(["id" => $item["category_id"]]);
-              ?>
+            ?>
               <div class="text-lg font-medium ">
                 <?php echo $name->name ?>
               </div>
               <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                <div
-                  class="bg-<?php if (isset($colors[$name->id])) {
-                    echo $colors[$name->id];
-                  } else {
-                    echo "teal";
-                  } ?>-600 h-2.5 rounded-full"
-                  style="width: <?php echo (($item["num_orders"]) ? $item["num_orders"] : 0) * 10 ?>%"></div>
+                <div class="bg-<?php if (isset($colors[$name->id])) {
+                                  echo $colors[$name->id];
+                                } else {
+                                  echo "teal";
+                                } ?>-600 h-2.5 rounded-full" style="width: <?php echo (($item["num_orders"]) ? $item["num_orders"] : 0) * 10 ?>%"></div>
               </div>
             <?php endforeach ?>
           </div>
@@ -169,8 +167,8 @@ foreach ($successfulOrder as $order) {
             <tbody>
               <?php
               $orders = Order::all();
-              foreach (array_slice($orders, 0, 5) as $order):
-                ?>
+              foreach (array_slice($orders, 0, 5) as $order) :
+              ?>
                 <tr class="transition-opacity bg-white border-b hover:bg-gray-200 even:bg-gray-100">
                   <td class="px-5 py-4 font-medium text-gray-900 whitespace-nowrap">
                     <?php echo $order->id ?>
@@ -181,8 +179,7 @@ foreach ($successfulOrder as $order) {
                   <td class="px-5 py-3">
                     <?php echo $order->create_at ?>
                   </td>
-                  <td
-                    class="px-5 py-3 font-medium <?php echo ($order->status == 0) ? 'text-red-900' : 'text-primary-400' ?>">
+                  <td class="px-5 py-3 font-medium <?php echo ($order->status == 0) ? 'text-red-900' : 'text-primary-400' ?>">
                     <?php
                     if ($order->status == 0) {
                       echo "Pending";
@@ -209,7 +206,8 @@ foreach ($successfulOrder as $order) {
   let test = <?php echo $test ?>;
   console.log(test);
   var series = [{
-    name: 'Quantity', data: test.map(function (item) {
+    name: 'Quantity',
+    data: test.map(function(item) {
       return item.total_quantity;
     })
   }];
@@ -252,7 +250,7 @@ foreach ($successfulOrder as $order) {
     },
     colors: colors,
     xaxis: {
-      categories: test.map(function (item) {
+      categories: test.map(function(item) {
         return item.name
       }),
       labels: {
@@ -276,7 +274,7 @@ foreach ($successfulOrder as $order) {
     },
     tooltip: {
       y: {
-        formatter: function (val) {
+        formatter: function(val) {
           return val + " items"
         }
       }
@@ -300,7 +298,7 @@ foreach ($successfulOrder as $order) {
       // colors: ['transparent']
     },
     xaxis: {
-      categories: test.map(function (item) {
+      categories: test.map(function(item) {
         return item.name
       }),
       labels: {
@@ -324,7 +322,7 @@ foreach ($successfulOrder as $order) {
     },
     tooltip: {
       y: {
-        formatter: function (val) {
+        formatter: function(val) {
           return val + " items"
         }
       }
@@ -362,7 +360,7 @@ foreach ($successfulOrder as $order) {
       // showForSingleSeries: true
     },
     xaxis: {
-      categories: test.map(function (item) {
+      categories: test.map(function(item) {
         return item.name
       }),
       labels: {
@@ -397,7 +395,7 @@ foreach ($successfulOrder as $order) {
     },
     tooltip: {
       y: {
-        formatter: function (val) {
+        formatter: function(val) {
           return val + " items"
         }
       }
@@ -405,6 +403,7 @@ foreach ($successfulOrder as $order) {
   };
   let chart = new ApexCharts(document.getElementById("chart"), bar_options);
   chart.render();
+
   function ChangeChart(chartType) {
     console.log(chartType.value);
     chart.destroy();
