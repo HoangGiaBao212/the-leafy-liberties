@@ -56,14 +56,14 @@ foreach ($successfulOrder as $order) {
           Dashboard
         </h1>
       </div>
-      <div>
+      <!-- <div>
         Filter by: 
         <select name="chart-ttype" id="c-type" class="px-4 py-1 rounded-md appearance-none focus:ring-2 focus:ring-primary-600 bg-gray-50">
           <option value="year" >By year</option>
           <option value="month" >By month</option>
           <option value="date" >By date</option>
         </select>
-      </div>
+      </div> -->
       <div class="box-border grid top-wrap 2xl:grid-cols-4 xl:gap-5 lg:grid-cols-2 lg:gap-2">
         <?php
         $text = ["Sales", "Pending", "New Users", "New Orders"];
