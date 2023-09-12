@@ -119,7 +119,7 @@ class ProductController extends Controller
         $product->image = $request->getParam("image");
         $product->price = $request->getParam("price");
         $product->description = $request->getParam("description");
-        $product->quantity = 0;
+        $product->quantity = $request->getParam("quantity");
         if ($request->getParam("author") != null) {
           $product->author_id = $request->getParam("author");
         }
