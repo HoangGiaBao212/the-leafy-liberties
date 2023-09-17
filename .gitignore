@@ -1,5 +1,4 @@
 # gitingore
 .env
 node_modules
-/core/Database.php
 test
