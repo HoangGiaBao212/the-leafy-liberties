@@ -56,16 +56,18 @@ foreach ($successfulOrder as $order) {
           Dashboard
         </h1>
       </div>
-      <!-- <div>
-        Filter by: 
-        <select name="chart-ttype" id="c-type" class="px-4 py-1 rounded-md appearance-none focus:ring-2 focus:ring-primary-600 bg-gray-50">
-          <option value="year" >By year</option>
-          <option value="month" >By month</option>
-          <option value="date" >By date</option>
+      <div>
+        Filter by:
+        <select name="filter-type" id="filter-type" class="px-4 py-1 rounded-md appearance-none focus:ring-2 focus:ring-primary-600 bg-gray-50">
+          <option value="all_order">All</option>
+          <option value="date">By date</option>
+          <option value="month">By month</option>
+          <option value="year">By year</option>
         </select>
-      </div> -->
+      </div>
       <div class="box-border grid top-wrap 2xl:grid-cols-4 xl:gap-5 lg:grid-cols-2 lg:gap-2">
         <?php
+        $id = ["total-revenue", "total-pending", "total-newUser", "total-newOrder"];
         $text = ["Sales", "Pending", "New Users", "New Orders"];
         $quantity = [$sum . " $", count($pendingOrders), $customer, $orders];
         $desc = [
@@ -92,7 +94,7 @@ foreach ($successfulOrder as $order) {
               <p class="text-sm font-semibold">
                 <?php echo $text[$i - 1]; ?>
               </p>
-              <p class="text-lg font-bold">
+              <p id="<?php echo $id[$i - 1] ?>" class="text-lg font-bold">
                 <?php echo $quantity[$i - 1]; ?>
               </p>
               <p class="text-gray-500 break-words">
@@ -427,5 +429,90 @@ foreach ($successfulOrder as $order) {
       chart.render();
 
     }
+  }
+  var successfullOrders = <?php echo json_encode(Order::findAll(["status" => "5"])); ?>;
+  console.log(successfullOrders);
+  document.getElementById("filter-type").addEventListener("change", function() {
+    var selectedOption = this.value;
+    FilterByTime(selectedOption);
+  });
+
+  function FilterByTime(selectedOption) {
+    var currentDate = new Date();
+    var totalRevenue = document.getElementById("total-revenue")
+    var pending = document.getElementById("total-pending")
+    var newUser = document.getElementById("total-newUser")
+    var newOrder = document.getElementById("total-newOrder")
+    if (selectedOption === 'date') {
+      var filteredData = successfullOrders.filter(function(order) {
+        var orderDate = new Date(order.attributes.create_at);
+        console.log(orderDate.getDate() + "--" + currentDate.getDate())
+        return (
+          orderDate.getDate() === currentDate.getDate() - 1 &&
+          orderDate.getMonth() === currentDate.getMonth() &&
+          orderDate.getFullYear() === currentDate.getFullYear()
+        );
+      });
+      console.log(filteredData);
+      var totalRevenueValue = calculateTotalRevenue(filteredData);
+      var pendingValue = calculatePending(filteredData);
+      var newUserValue = calculateNewUser(filteredData);
+      var newOrderValue = calculateNewOrder(filteredData);
+
+      totalRevenue.textContent = totalRevenueValue + " $";
+      pending.textContent = pendingValue;
+      newUser.textContent = newUserValue;
+      newOrder.textContent = newOrderValue;
+      
+    }
+
+    if (selectedOption === 'month') {
+      var filteredData = successfullOrders.filter(function(order) {
+        var orderDate = new Date(order.attributes.create_at);
+        return (
+          orderDate.getMonth() === currentDate.getMonth() &&
+          orderDate.getFullYear() === currentDate.getFullYear()
+        );
+      });
+      console.log(filteredData);
+    }
+
+    if (selectedOption === 'year') {
+      var filteredData = successfullOrders.filter(function(order) {
+        var orderDate = new Date(order.attributes.create_at);
+        return orderDate.getFullYear() === currentDate.getFullYear();
+      });
+      console.log(filteredData);
+    }
+  }
+
+  function calculateTotalRevenue(data) {
+    var total = 0;
+    data.forEach(function(order) {
+      total += parseFloat(order.attributes.total_price);
+    });
+    return total.toFixed(2);
+  }
+
+  function calculatePending(data) {
+    var count = 0;
+    data.forEach(function(order) {
+      if (order.status === 0) {
+        count++;
+      }
+    });
+    return count;
+  }
+
+  function calculateNewUser(data) {
+    var uniqueUsers = new Set();
+    data.forEach(function(order) {
+      uniqueUsers.add(order.email);
+    });
+    return uniqueUsers.size;
+  }
+
+  function calculateNewOrder(data) {
+    return data.length;
   }
 </script>
