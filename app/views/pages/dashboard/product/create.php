@@ -106,7 +106,8 @@ use App\Models\Tag;
             <label for="quantity" class="my-2">Quantity:</label>
             <input type="number" value="0" name="quantity"
                 class="p-3 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-400" required
-                onkeydown="if (event.keyCode === 69 || event.keyCode === 189 || event.keyCode == 107) return false;" />
+                onkeydown="if (event.keyCode === 69 || event.keyCode === 189 || event.keyCode == 107) return false;"
+                disabled />
             <button
                 class="my-2 bg-[#2e524e] hover:bg-[#52938d] transition-colors text-white font-bold py-2 px-4 rounded"
                 type="submit">
@@ -208,4 +209,5 @@ button.addEventListener("click", () => {
     }
 
 });
+
 </script>
