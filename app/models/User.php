@@ -24,6 +24,7 @@ class User extends Model
     "status",
     "address",
     "birthday",
+    "created_at",
     "deleted_at"
   ];
 

@@ -79,5 +79,103 @@ class DashboardController extends Controller
   }
   public function filter(Request $request, Response $response)
   {
+    $successfulOrders = Order::findAll(["status" => "5"]);
+
+    $pendingOrderList = Order::findAll(["status" => "0"]);
+    // $orders = count(Order::all());
+
+    $successfulOrder = [];
+    $newOrders = [];
+    $pendingOrders = [];
+    $customerList = [];
+    $filterDate   =  $request->getParam("filter-date");
+    $filterMonth = $request->getParam("filter-month");
+    $filterYear = $request->getParam("filter-year");
+    $dateToMatch = $filterYear . '-' . $filterMonth . '-' . $filterDate;
+
+    $db = Database::getInstance();
+    // Top 5 product sold in one day
+    $top5prdSold = $db->select("SELECT p.id, p.name, SUM(op.quantity) AS total_quantity
+FROM products p
+JOIN orders_products op ON op.product_id = p.id
+JOIN orders o ON o.id = op.order_id
+WHERE o.status = 5
+AND YEAR(o.create_at) = ?
+AND MONTH(o.create_at) = ?
+AND DAY(o.create_at) = ?
+GROUP BY p.id, p.name
+ORDER BY total_quantity DESC
+LIMIT 5;", [
+      $filterYear,
+      $filterMonth,
+      $filterDate,
+    ]);
+
+    // Most sold by category in one day
+    $categorySold = $db->select("SELECT c.id AS category_id, COUNT(DISTINCT o.id) AS num_orders
+FROM categories c
+JOIN products_categories pc ON pc.category_id = c.id
+JOIN products p ON p.id = pc.product_id
+JOIN orders_products op ON op.product_id = p.id
+JOIN orders o ON o.id = op.order_id
+WHERE o.status = 5
+AND YEAR(o.create_at) = ?
+AND MONTH(o.create_at) = ?
+AND DAY(o.create_at) = ?
+GROUP BY c.id
+ORDER BY num_orders DESC
+LIMIT 6;", [
+      $filterYear,
+      $filterMonth,
+      $filterDate,
+    ]);
+
+
+    $test = json_encode($top5prdSold);
+
+
+    foreach ($successfulOrders as $order) {
+      $orderDate = $order->create_at;
+
+      if (substr($orderDate, 0, 10) === $dateToMatch) {
+        $successfulOrder[] = $order;
+      }
+    }
+    foreach ($pendingOrderList as $pendingOrder) {
+      $pendingOrderDate = $pendingOrder->create_at;
+      if (substr($pendingOrderDate, 0, 10) === $dateToMatch) {
+        $pendingOrders[] = $pendingOrder;
+      }
+    }
+    foreach (User::findAll(["deleted_at" => "null"]) as $customer) {
+      if (substr($customer->created_at, 0, 10) === $dateToMatch) {
+        $customerList[] = $customer;
+      }
+    }
+    foreach (Order::findAll(["deleted_at" => "null"]) as $order) {
+      if (substr($order->create_at, 0, 10) === $dateToMatch) {
+        $newOrders[] = $order;
+      }
+    }
+
+    $customer = count($customerList);
+    $orders = count($newOrders);
+    $response->setStatusCode(200);
+    $response->setBody(
+      View::renderWithLayout(
+        new View("pages/dashboard/index"),
+        [
+          "title" => "Dashboard",
+          "successfulOrder" => $successfulOrder,
+          "pendingOrders" => $pendingOrders,
+          "customer" => $customer,
+          "orders" => $orders,
+          "top5prdSold" => $top5prdSold,
+          "categorySold" => $categorySold,
+          "test" => $test,
+        ],
+        "layouts/dashboard"
+      )
+    );
   }
 }

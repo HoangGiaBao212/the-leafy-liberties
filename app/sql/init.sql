@@ -1,4 +1,4 @@
--- Active: 1680850809935@@127.0.0.1@3306@bookstore
+-- Active: 1695036225563@@127.0.0.1@3306@bookstore
 
 DROP DATABASE IF EXISTS bookstore;
 
@@ -113,6 +113,7 @@ CREATE TABLE
         role_id int DEFAULT NULL,
         status tinyint NOT NULL DEFAULT "1",
         address text DEFAULT NULL,
+        created_at datetime DEFAULT NULL,
         deleted_at datetime DEFAULT NULL,
         -- key
         UNIQUE KEY email (email),

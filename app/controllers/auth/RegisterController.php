@@ -9,6 +9,7 @@ use Core\Database;
 use Core\Request;
 use Core\Response;
 use Core\View;
+use DateTime;
 use Exception;
 use Utils\Validation;
 
@@ -64,6 +65,8 @@ class RegisterController extends Controller
     $user->email = $email;
     $user->name = $name;
     $user->phone = $phone;
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
+    $user->created_at = date('Y-m-d H:i:s');
     $user->password = password_hash($password, PASSWORD_DEFAULT);
     $role = Role::findAll(["name" => "customer"])[0];
     if ($role == null) {

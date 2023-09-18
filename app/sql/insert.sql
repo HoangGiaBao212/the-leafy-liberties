@@ -1,4 +1,4 @@
--- Active: 1680850809935@@127.0.0.1@3306@bookstore
+-- Active: 1695036225563@@127.0.0.1@3306@bookstore
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -834,6 +834,7 @@ INSERT INTO
         `role_id`,
         `status`,
         `address`,
+        `created_at`,
         `deleted_at`
     )
 VALUES (
@@ -847,6 +848,7 @@ VALUES (
         1,
         1,
         NULL,
+        CURRENT_TIMESTAMP,
         NULL
     ), (
         2,
@@ -859,6 +861,7 @@ VALUES (
         2,
         1,
         NULL,
+        CURRENT_TIMESTAMP,
         NULL
     ), (
         3,
@@ -871,6 +874,7 @@ VALUES (
         3,
         1,
         NULL,
+        CURRENT_TIMESTAMP,
         NULL
     );
 
