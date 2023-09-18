@@ -1,4 +1,4 @@
--- Active: 1695036225563@@127.0.0.1@3306@bookstore
+-- Active: 1694406583293@@127.0.0.1@3306@bookstore
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -834,7 +834,6 @@ INSERT INTO
         `role_id`,
         `status`,
         `address`,
-        `created_at`,
         `deleted_at`
     )
 VALUES (
@@ -848,7 +847,6 @@ VALUES (
         1,
         1,
         NULL,
-        CURRENT_TIMESTAMP,
         NULL
     ), (
         2,
@@ -861,10 +859,69 @@ VALUES (
         2,
         1,
         NULL,
-        CURRENT_TIMESTAMP,
         NULL
     ), (
         3,
+        'customer1@customer.com',
+        'Customer1',
+        '0123456789',
+        '$2y$10$msjZCcmhGinMn7R8Mg9zbe29bbnF/wgeIpr/5eIwQugefkko7eiRK',
+        0,
+        NULL,
+        1,
+        1,
+        NULL,
+        NULL
+    ),(
+        4,
+        'customer2@customer.com',
+        'Customer2',
+        '0123456789',
+        '$2y$10$msjZCcmhGinMn7R8Mg9zbe29bbnF/wgeIpr/5eIwQugefkko7eiRK',
+        0,
+        NULL,
+        1,
+        1,
+        NULL,
+        NULL
+    ),(
+        5,
+        'customer3@customer.com',
+        'Customer3',
+        '0123456789',
+        '$2y$10$msjZCcmhGinMn7R8Mg9zbe29bbnF/wgeIpr/5eIwQugefkko7eiRK',
+        0,
+        NULL,
+        1,
+        1,
+        NULL,
+        NULL
+    ),(
+        6,
+        'customer4@customer.com',
+        'Customer4',
+        '0123456789',
+        '$2y$10$msjZCcmhGinMn7R8Mg9zbe29bbnF/wgeIpr/5eIwQugefkko7eiRK',
+        0,
+        NULL,
+        1,
+        1,
+        NULL,
+        NULL
+    ),(
+        7,
+        'customer5@customer.com',
+        'Customer5',
+        '0123456789',
+        '$2y$10$msjZCcmhGinMn7R8Mg9zbe29bbnF/wgeIpr/5eIwQugefkko7eiRK',
+        0,
+        NULL,
+        1,
+        1,
+        NULL,
+        NULL
+    ),(
+        8,
         'administrator@administrator.com',
         'Administrator',
         '0123456789',
@@ -874,7 +931,6 @@ VALUES (
         3,
         1,
         NULL,
-        CURRENT_TIMESTAMP,
         NULL
     );
 
