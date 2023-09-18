@@ -168,6 +168,9 @@ class DashboardController extends Controller
             "top5prdSold" => $top5prdSold,
             "categorySold" => $categorySold,
             "test" => $test,
+            "filterDate" => $filterDate,
+            "filterMonth" => $filterMonth,
+            "filterYear" => $filterYear,
           ],
           "layouts/dashboard"
         )

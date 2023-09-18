@@ -27,43 +27,51 @@ foreach ($successfulOrder as $order) {
           <form action="<?php echo BASE_URI . "/dashboard/filter"; ?>" method="POST">
             <label for="filter-type" class="mb-2">Filter:</label>
             <div>
-              <input type="radio" id="filter-all" name="filter-type" value="all" checked>
+              <input type="radio" id="filter-all" name="filter-type" value="all" <?php echo empty($filterDate) ? 'checked' : ''; ?>>
               <label for="filter-all">All Products</label>
             </div>
             <div>
-              <input type="radio" id="filter-date" name="filter-type" value="date">
+              <input type="radio" id="filter-date" name="filter-type" value="date" <?php echo !empty($filterDate) ? 'checked' : ''; ?>>
               <label for="filter-date">By Date:</label>
               <select id="filter-date-select" name="filter-date" class="px-4 py-2 border rounded-lg text-lg cursor-pointer">
                 <?php
                 for ($day = 1; $day <= 31; $day++) {
                   $dayValue = sprintf("%02d", $day);
-                  echo "<option value=\"$dayValue\">$dayValue</option>";
+                  $selected = ($dayValue == $filterDate) ? 'selected' : '';
+                  echo "<option value=\"$dayValue\" $selected>$dayValue</option>";
                 }
                 ?>
               </select>
+
               <select id="filter-month-select" name="filter-month" class="px-4 py-2 border rounded-lg text-lg cursor-pointer">
                 <?php
                 for ($month = 1; $month <= 12; $month++) {
                   $monthValue = sprintf("%02d", $month);
+                  $selected = ($monthValue == $filterMonth) ? 'selected' : '';
                   $monthName = date("F", mktime(0, 0, 0, $month, 1));
-                  echo "<option value=\"$monthValue\">$monthValue - $monthName</option>";
+                  echo "<option value=\"$monthValue\" $selected>$monthValue - $monthName</option>";
                 }
                 ?>
               </select>
+
+              <!-- Cho biến $filterYear -->
               <select id="filter-year-select" name="filter-year" class="px-4 py-2 border rounded-lg text-lg cursor-pointer">
                 <?php
                 $currentYear = date("Y");
 
                 for ($year = $currentYear; $year >= $currentYear - 10; $year--) {
-                  echo "<option value=\"$year\">$year</option>";
+                  $selected = ($year == $filterYear) ? 'selected' : '';
+                  echo "<option value=\"$year\" $selected>$year</option>";
                 }
                 ?>
               </select>
+
             </div>
             <button type="submit" class="py-2 px-5 bg-[#315854] font-semibold text-white rounded-lg my-5 mx-4 hover:bg-primary-700 transition-all cursor-pointer">Filter</button>
           </form>
         </div>
       </div>
+
 
       <div class="box-border grid top-wrap 2xl:grid-cols-4 xl:gap-5 lg:grid-cols-2 lg:gap-2">
         <?php
@@ -425,94 +433,5 @@ foreach ($successfulOrder as $order) {
       chart.render();
 
     }
-  }
-  var successfullOrders = <?php echo json_encode(Order::findAll(["status" => "5"])); ?>;
-  // console.log(successfullOrders);
-  document.getElementById("filter-type").addEventListener("change", function() {
-    var selectedOption = this.value;
-    FilterByTime(selectedOption);
-  });
-
-  function FilterByTime(selectedOption) {
-    var currentDate = new Date();
-
-    var timeZoneOffset = 7 * 60;
-    var vietnamTimeOffset = currentDate.getTimezoneOffset() + timeZoneOffset;
-    var currentDateVietnam = new Date(currentDate.getTime() + vietnamTimeOffset * 60000);
-    var totalRevenue = document.getElementById("total-revenue")
-    var pending = document.getElementById("total-pending")
-    var newUser = document.getElementById("total-newUser")
-    var newOrder = document.getElementById("total-newOrder")
-    if (selectedOption === 'date') {
-      var filteredData = successfullOrders.filter(function(order) {
-        var orderDate = new Date(order.attributes.create_at);
-        console.log(orderDate.getDate() + "--" + currentDate.getDate())
-        return (
-          orderDate.getDate() === currentDate.getDate() &&
-          orderDate.getMonth() === currentDate.getMonth() &&
-          orderDate.getFullYear() === currentDate.getFullYear()
-        );
-      });
-      console.log(filteredData);
-      var totalRevenueValue = calculateTotalRevenue(filteredData);
-      var pendingValue = calculatePending(filteredData);
-      var newUserValue = calculateNewUser(filteredData);
-      var newOrderValue = calculateNewOrder(filteredData);
-
-      totalRevenue.textContent = totalRevenueValue + " $";
-      pending.textContent = pendingValue;
-      newUser.textContent = newUserValue;
-      newOrder.textContent = newOrderValue;
-
-    }
-
-    if (selectedOption === 'month') {
-      var filteredData = successfullOrders.filter(function(order) {
-        var orderDate = new Date(order.attributes.create_at);
-        return (
-          orderDate.getMonth() === currentDate.getMonth() &&
-          orderDate.getFullYear() === currentDate.getFullYear()
-        );
-      });
-      console.log(filteredData);
-    }
-
-    if (selectedOption === 'year') {
-      var filteredData = successfullOrders.filter(function(order) {
-        var orderDate = new Date(order.attributes.create_at);
-        return orderDate.getFullYear() === currentDate.getFullYear();
-      });
-      console.log(filteredData);
-    }
-  }
-
-  function calculateTotalRevenue(data) {
-    var total = 0;
-    data.forEach(function(order) {
-      total += parseFloat(order.attributes.total_price);
-    });
-    return total.toFixed(2);
-  }
-
-  function calculatePending(data) {
-    var count = 0;
-    data.forEach(function(order) {
-      if (order.status === 0) {
-        count++;
-      }
-    });
-    return count;
-  }
-
-  function calculateNewUser(data) {
-    var uniqueUsers = new Set();
-    data.forEach(function(order) {
-      uniqueUsers.add(order.email);
-    });
-    return uniqueUsers.size;
-  }
-
-  function calculateNewOrder(data) {
-    return data.length;
   }
 </script>
