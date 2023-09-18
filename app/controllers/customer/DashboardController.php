@@ -27,13 +27,11 @@ class DashboardController extends Controller
 
     $user = $auth->getUser();
 
-    // todo: get list permission contain '.access'
     $successfulOrder = Order::findAll(["status" => "5"]);
     $pendingOrders = Order::findAll(["status" => "0"]);
     $customer = count(User::findAll(["deleted_at" => "null"]));
     $orders = count(Order::all());
     $db = Database::getInstance();
-    //top 5 product sold in one month
     $top5prdSold = $db->select("SELECT p.id, p.name, SUM(op.quantity) AS total_quantity
       FROM products p
       JOIN orders_products op ON op.product_id = p.id
@@ -44,10 +42,7 @@ class DashboardController extends Controller
       GROUP BY p.id, p.name
       ORDER BY total_quantity DESC
       LIMIT 5;", []);
-
     $test = json_encode($top5prdSold);
-
-    // //most sold by category query
     $categorySold = $db->select("SELECT c.id AS category_id, COUNT(DISTINCT o.id) AS num_orders
       FROM categories c
       JOIN products_categories pc ON pc.category_id = c.id
@@ -105,10 +100,10 @@ class DashboardController extends Controller
       GROUP BY p.id, p.name
       ORDER BY total_quantity DESC
       LIMIT 5;", [
-            $filterYear,
-            $filterMonth,
-            $filterDate,
-          ]);
+      $filterYear,
+      $filterMonth,
+      $filterDate,
+    ]);
 
     $categorySold = $db->select("SELECT c.id AS category_id, COUNT(DISTINCT o.id) AS num_orders
       FROM categories c
@@ -123,14 +118,12 @@ class DashboardController extends Controller
       GROUP BY c.id
       ORDER BY num_orders DESC
       LIMIT 6;", [
-            $filterYear,
-            $filterMonth,
-            $filterDate,
-          ]);
-
+      $filterYear,
+      $filterMonth,
+      $filterDate,
+    ]);
 
     $test = json_encode($top5prdSold);
-
 
     foreach ($successfulOrders as $order) {
       $orderDate = $order->create_at;

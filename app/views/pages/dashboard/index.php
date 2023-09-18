@@ -22,44 +22,43 @@ foreach ($successfulOrder as $order) {
           Dashboard
         </h1>
       </div>
-      <div>
-        <form action="<?php echo BASE_URI . "/dashboard/filter"; ?>" method="POST">
-          <label for="filter-date">Date:</label>
-          <select id="filter-date" name="filter-date">
-            <?php
-            for ($day = 1; $day <= 31; $day++) {
-              $dayValue = sprintf("%02d", $day); 
-              echo "<option value=\"$dayValue\">$dayValue</option>";
-            }
-            ?>
-          </select>
+      <div class="w-1/2 border border-gray-200 rounded">
+        <div class="relative px-4 py-2">
+          <form action="<?php echo BASE_URI . "/dashboard/filter"; ?>" method="POST">
+            <label for="filter-date" class="mb-2">Date:</label>
+            <select id="filter-date" name="filter-date" class="px-4 py-2 border rounded-lg text-lg cursor-pointer">
+              <?php
+              for ($day = 1; $day <= 31; $day++) {
+                $dayValue = sprintf("%02d", $day);
+                echo "<option value=\"$dayValue\">$dayValue</option>";
+              }
+              ?>
+            </select>
 
-          <label for="filter-month">Month:</label>
-          <select id="filter-month" name="filter-month">
-            <?php
-            for ($month = 1; $month <= 12; $month++) {
-              $monthValue = sprintf("%02d", $month); 
-              $monthName = date("F", mktime(0, 0, 0, $month, 1)); 
-              echo "<option value=\"$monthValue\">$monthValue - $monthName</option>";
-            }
-            ?>
-          </select>
+            <label for="filter-month" class="mb-2">Month:</label>
+            <select id="filter-month" name="filter-month" class="px-4 py-2 border rounded-lg text-lg cursor-pointer">
+              <?php
+              for ($month = 1; $month <= 12; $month++) {
+                $monthValue = sprintf("%02d", $month);
+                $monthName = date("F", mktime(0, 0, 0, $month, 1));
+                echo "<option value=\"$monthValue\">$monthValue - $monthName</option>";
+              }
+              ?>
+            </select>
 
-          <label for="filter-year">Year:</label>
-          <select id="filter-year" name="filter-year">
-            <?php
-            $currentYear = date("Y");
+            <label for="filter-year" class="mb-2" >Year:</label>
+            <select id="filter-year" name="filter-year" class="px-4 py-2 border rounded-lg text-lg cursor-pointer">
+              <?php
+              $currentYear = date("Y");
 
-            for ($year = $currentYear; $year >= $currentYear - 10; $year--) {
-              echo "<option value=\"$year\">$year</option>";
-            }
-            ?>
-          </select>
-
-          <button type="submit">Submit</button>
-        </form>
-
-
+              for ($year = $currentYear; $year >= $currentYear - 10; $year--) {
+                echo "<option value=\"$year\">$year</option>";
+              }
+              ?>
+            </select>
+            <button type="submit" class="py-2 px-5 bg-[#315854] font-semibold text-white rounded-lg my-5 mx-4 hover:bg-primary-700 transition-all cursor-pointer">Filter</button>
+          </form>
+        </div>
       </div>
       <div class="box-border grid top-wrap 2xl:grid-cols-4 xl:gap-5 lg:grid-cols-2 lg:gap-2">
         <?php
