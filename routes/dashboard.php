@@ -19,6 +19,7 @@ use Core\Application;
 $router = Application::getInstance()->getRouter();
 
 $router->get("/dashboard", [DashboardController::class, "index"]);
+$router->post("/dashboard/filter", [DashboardController::class, "filter"]);
 
 // product
 $router->get("/dashboard/product", [ProductController::class, "index"]);

@@ -1,6 +1,9 @@
 <?php
+
 namespace App\Controllers\Customer;
 
+use App\Models\Order;
+use App\Models\User;
 use Core\Application;
 use Core\Controller;
 use Core\Request;
@@ -24,7 +27,11 @@ class DashboardController extends Controller
     $user = $auth->getUser();
 
     // todo: get list permission contain '.access'
-
+    $successfulOrder = Order::findAll(["status" => "5"]);
+    $pendingOrders = Order::findAll(["status" => "0"]);
+    $customer = count(User::findAll(["deleted_at" => "null"]));
+    $orders = count(Order::all());
+    
     $response->setStatusCode(200);
     $response->setBody(
       View::renderWithLayout(
@@ -32,9 +39,16 @@ class DashboardController extends Controller
         [
           "title" => "Dashboard",
           "user" => $user,
+          "successfulOrder" => $successfulOrder,
+          "pendingOrders" => $pendingOrders,
+          "customer" => $customer,
+          "orders" => $orders
         ],
         "layouts/dashboard"
       )
     );
+  }
+  public function filter(Request $request, Response $response)
+  {
   }
 }

@@ -33,13 +33,9 @@ GROUP BY c.id
 ORDER BY num_orders DESC
 LIMIT 6;", []);
 
-$successfulOrder = Order::findAll(["status" => "5"]);
-$pendingOrders = Order::findAll(["status" => "0"]);
 $sum = 0;
 $sumCategory = 0;
 $products_sale = 0;
-$customer = count(User::findAll(["deleted_at" => "null"]));
-$orders = count(Order::all());
 foreach ($successfulOrder as $order) {
   $sum += $order->total_price;
   foreach ($order->products() as $prd) {
@@ -431,7 +427,7 @@ foreach ($successfulOrder as $order) {
     }
   }
   var successfullOrders = <?php echo json_encode(Order::findAll(["status" => "5"])); ?>;
-  console.log(successfullOrders);
+  // console.log(successfullOrders);
   document.getElementById("filter-type").addEventListener("change", function() {
     var selectedOption = this.value;
     FilterByTime(selectedOption);
@@ -439,6 +435,10 @@ foreach ($successfulOrder as $order) {
 
   function FilterByTime(selectedOption) {
     var currentDate = new Date();
+
+    var timeZoneOffset = 7 * 60;
+    var vietnamTimeOffset = currentDate.getTimezoneOffset() + timeZoneOffset;
+    var currentDateVietnam = new Date(currentDate.getTime() + vietnamTimeOffset * 60000);
     var totalRevenue = document.getElementById("total-revenue")
     var pending = document.getElementById("total-pending")
     var newUser = document.getElementById("total-newUser")
@@ -448,7 +448,7 @@ foreach ($successfulOrder as $order) {
         var orderDate = new Date(order.attributes.create_at);
         console.log(orderDate.getDate() + "--" + currentDate.getDate())
         return (
-          orderDate.getDate() === currentDate.getDate() - 1 &&
+          orderDate.getDate() === currentDate.getDate() &&
           orderDate.getMonth() === currentDate.getMonth() &&
           orderDate.getFullYear() === currentDate.getFullYear()
         );
@@ -463,7 +463,7 @@ foreach ($successfulOrder as $order) {
       pending.textContent = pendingValue;
       newUser.textContent = newUserValue;
       newOrder.textContent = newOrderValue;
-      
+
     }
 
     if (selectedOption === 'month') {
