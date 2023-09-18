@@ -54,7 +54,6 @@ foreach ($successfulOrder as $order) {
                 ?>
               </select>
 
-              <!-- Cho biến $filterYear -->
               <select id="filter-year-select" name="filter-year" class="px-4 py-2 border rounded-lg text-lg cursor-pointer">
                 <?php
                 $currentYear = date("Y");
@@ -71,7 +70,6 @@ foreach ($successfulOrder as $order) {
           </form>
         </div>
       </div>
-
 
       <div class="box-border grid top-wrap 2xl:grid-cols-4 xl:gap-5 lg:grid-cols-2 lg:gap-2">
         <?php
@@ -281,7 +279,7 @@ foreach ($successfulOrder as $order) {
     },
     fill: {
       opacity: 1,
-      colors: colors // set fill colors to use the same colors as bars
+      colors: colors
     },
     tooltip: {
       y: {
@@ -368,7 +366,6 @@ foreach ($successfulOrder as $order) {
     },
     legend: {
       show: true,
-      // showForSingleSeries: true
     },
     xaxis: {
       categories: test.map(function(item) {
@@ -421,17 +418,50 @@ foreach ($successfulOrder as $order) {
     if (chartType.value == 'line') {
       chart = new ApexCharts(document.getElementById("chart"), line_options);
       chart.render();
-
     }
     if (chartType.value == 'bar') {
       chart = new ApexCharts(document.getElementById("chart"), bar_options);
       chart.render();
-
     }
     if (chartType.value == 'area') {
       chart = new ApexCharts(document.getElementById("chart"), area_options);
       chart.render();
-
     }
+  }
+
+  var radioAll = document.getElementById("filter-all");
+  var radioDate = document.getElementById("filter-date");
+  var dateSelect = document.getElementById("filter-date-select");
+  var monthSelect = document.getElementById("filter-month-select");
+  var yearSelect = document.getElementById("filter-year-select");
+
+  radioAll.addEventListener("change", function() {
+    if (radioAll.checked) {
+      dateSelect.disabled = true;
+      monthSelect.disabled = true;
+      yearSelect.disabled = true;
+    } else {
+      dateSelect.disabled = false;
+      monthSelect.disabled = false;
+      yearSelect.disabled = false;
+    }
+  });
+
+  radioDate.addEventListener("change", function() {
+    if (radioDate.checked) {
+      dateSelect.disabled = false;
+      monthSelect.disabled = false;
+      yearSelect.disabled = false;
+    } else {
+      dateSelect.disabled = true;
+      monthSelect.disabled = true;
+      yearSelect.disabled = true;
+    }
+  });
+
+  if (radioAll.checked) {
+    dateSelect.disabled = true;
+    monthSelect.disabled = true;
+    yearSelect.disabled = true;
   }
 </script>
