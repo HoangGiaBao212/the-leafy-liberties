@@ -94,41 +94,39 @@ class DashboardController extends Controller
     $dateToMatch = $filterYear . '-' . $filterMonth . '-' . $filterDate;
 
     $db = Database::getInstance();
-    // Top 5 product sold in one day
     $top5prdSold = $db->select("SELECT p.id, p.name, SUM(op.quantity) AS total_quantity
-FROM products p
-JOIN orders_products op ON op.product_id = p.id
-JOIN orders o ON o.id = op.order_id
-WHERE o.status = 5
-AND YEAR(o.create_at) = ?
-AND MONTH(o.create_at) = ?
-AND DAY(o.create_at) = ?
-GROUP BY p.id, p.name
-ORDER BY total_quantity DESC
-LIMIT 5;", [
-      $filterYear,
-      $filterMonth,
-      $filterDate,
-    ]);
+      FROM products p
+      JOIN orders_products op ON op.product_id = p.id
+      JOIN orders o ON o.id = op.order_id
+      WHERE o.status = 5
+      AND YEAR(o.create_at) = ?
+      AND MONTH(o.create_at) = ?
+      AND DAY(o.create_at) = ?
+      GROUP BY p.id, p.name
+      ORDER BY total_quantity DESC
+      LIMIT 5;", [
+            $filterYear,
+            $filterMonth,
+            $filterDate,
+          ]);
 
-    // Most sold by category in one day
     $categorySold = $db->select("SELECT c.id AS category_id, COUNT(DISTINCT o.id) AS num_orders
-FROM categories c
-JOIN products_categories pc ON pc.category_id = c.id
-JOIN products p ON p.id = pc.product_id
-JOIN orders_products op ON op.product_id = p.id
-JOIN orders o ON o.id = op.order_id
-WHERE o.status = 5
-AND YEAR(o.create_at) = ?
-AND MONTH(o.create_at) = ?
-AND DAY(o.create_at) = ?
-GROUP BY c.id
-ORDER BY num_orders DESC
-LIMIT 6;", [
-      $filterYear,
-      $filterMonth,
-      $filterDate,
-    ]);
+      FROM categories c
+      JOIN products_categories pc ON pc.category_id = c.id
+      JOIN products p ON p.id = pc.product_id
+      JOIN orders_products op ON op.product_id = p.id
+      JOIN orders o ON o.id = op.order_id
+      WHERE o.status = 5
+      AND YEAR(o.create_at) = ?
+      AND MONTH(o.create_at) = ?
+      AND DAY(o.create_at) = ?
+      GROUP BY c.id
+      ORDER BY num_orders DESC
+      LIMIT 6;", [
+            $filterYear,
+            $filterMonth,
+            $filterDate,
+          ]);
 
 
     $test = json_encode($top5prdSold);
