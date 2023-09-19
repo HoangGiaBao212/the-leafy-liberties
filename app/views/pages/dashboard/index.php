@@ -27,44 +27,13 @@ foreach ($successfulOrder as $order) {
           <form action="<?php echo BASE_URI . "/dashboard/filter"; ?>" method="POST">
             <label for="filter-type" class="mb-2">Filter:</label>
             <div>
-              <input type="radio" id="filter-all" name="filter-type" value="all" <?php echo empty($filterDate) ? 'checked' : ''; ?>>
+              <input type="radio" id="filter-all" name="filter-type" value="all" <?php echo empty($filterByDate) ? 'checked' : ''; ?>>
               <label for="filter-all">All Products</label>
             </div>
             <div>
-              <input type="radio" id="filter-date" name="filter-type" value="date" <?php echo !empty($filterDate) ? 'checked' : ''; ?>>
+              <input type="radio" id="filter-date" name="filter-type" value="date" <?php echo !empty($filterByDate) ? 'checked' : ''; ?>>
               <label for="filter-date">By Date:</label>
-              <select id="filter-date-select" name="filter-date" class="px-4 py-2 border rounded-lg text-lg cursor-pointer">
-                <?php
-                for ($day = 1; $day <= 31; $day++) {
-                  $dayValue = sprintf("%02d", $day);
-                  $selected = ($dayValue == $filterDate) ? 'selected' : '';
-                  echo "<option value=\"$dayValue\" $selected>$dayValue</option>";
-                }
-                ?>
-              </select>
-
-              <select id="filter-month-select" name="filter-month" class="px-4 py-2 border rounded-lg text-lg cursor-pointer">
-                <?php
-                for ($month = 1; $month <= 12; $month++) {
-                  $monthValue = sprintf("%02d", $month);
-                  $selected = ($monthValue == $filterMonth) ? 'selected' : '';
-                  $monthName = date("F", mktime(0, 0, 0, $month, 1));
-                  echo "<option value=\"$monthValue\" $selected>$monthValue - $monthName</option>";
-                }
-                ?>
-              </select>
-
-              <select id="filter-year-select" name="filter-year" class="px-4 py-2 border rounded-lg text-lg cursor-pointer">
-                <?php
-                $currentYear = date("Y");
-
-                for ($year = $currentYear; $year >= $currentYear - 10; $year--) {
-                  $selected = ($year == $filterYear) ? 'selected' : '';
-                  echo "<option value=\"$year\" $selected>$year</option>";
-                }
-                ?>
-              </select>
-
+              <input type="date" id="filter-by-date" name="filter-by-date" value="<?php echo $filterByDate ?>"/>
             </div>
             <button type="submit" class="py-2 px-5 bg-[#315854] font-semibold text-white rounded-lg my-5 mx-4 hover:bg-primary-700 transition-all cursor-pointer">Filter</button>
           </form>
@@ -431,37 +400,34 @@ foreach ($successfulOrder as $order) {
 
   var radioAll = document.getElementById("filter-all");
   var radioDate = document.getElementById("filter-date");
-  var dateSelect = document.getElementById("filter-date-select");
-  var monthSelect = document.getElementById("filter-month-select");
-  var yearSelect = document.getElementById("filter-year-select");
+  var filterByDate = document.getElementById("filter-by-date");
 
   radioAll.addEventListener("change", function() {
     if (radioAll.checked) {
-      dateSelect.disabled = true;
-      monthSelect.disabled = true;
-      yearSelect.disabled = true;
+      filterByDate.disabled = true;
     } else {
-      dateSelect.disabled = false;
-      monthSelect.disabled = false;
-      yearSelect.disabled = false;
+      filterByDate.disabled = false;
     }
   });
 
   radioDate.addEventListener("change", function() {
     if (radioDate.checked) {
-      dateSelect.disabled = false;
-      monthSelect.disabled = false;
-      yearSelect.disabled = false;
+      filterByDate.disabled = false;
     } else {
-      dateSelect.disabled = true;
-      monthSelect.disabled = true;
-      yearSelect.disabled = true;
+      filterByDate.disabled = true;
     }
   });
 
   if (radioAll.checked) {
-    dateSelect.disabled = true;
-    monthSelect.disabled = true;
-    yearSelect.disabled = true;
+    filterByDate.disabled = true;
   }
+
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0');
+  var yyyy = today.getFullYear();
+  var formattedDate = yyyy + '-' + mm + '-' + dd;
+
+  document.getElementById("filter-by-date").setAttribute("max", formattedDate);
+
 </script>

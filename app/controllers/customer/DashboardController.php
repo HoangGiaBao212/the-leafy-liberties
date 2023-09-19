@@ -87,10 +87,15 @@ class DashboardController extends Controller
       $newOrders = [];
       $pendingOrders = [];
       $customerList = [];
-      $filterDate   =  $request->getParam("filter-date");
-      $filterMonth = $request->getParam("filter-month");
-      $filterYear = $request->getParam("filter-year");
-      $dateToMatch = $filterYear . '-' . $filterMonth . '-' . $filterDate;
+      // $filterDate   =  $request->getParam("filter-date");
+      // $filterMonth = $request->getParam("filter-month");
+      // $filterYear = $request->getParam("filter-year");
+      $filterByDate = $request->getParam("filter-by-date");
+      $dateArray = explode("-", $filterByDate);
+      // $dateToMatch = $filterYear . '-' . $filterMonth . '-' . $filterDate;
+      $filterYear = $dateArray[0];
+      $filterMonth = $dateArray[1];
+      $filterDate = $dateArray[2];
 
       $db = Database::getInstance();
       $top5prdSold = $db->select("SELECT p.id, p.name, SUM(op.quantity) AS total_quantity
@@ -132,23 +137,23 @@ class DashboardController extends Controller
       foreach ($successfulOrders as $order) {
         $orderDate = $order->create_at;
 
-        if (substr($orderDate, 0, 10) === $dateToMatch) {
+        if (substr($orderDate, 0, 10) === $filterByDate) {
           $successfulOrder[] = $order;
         }
       }
       foreach ($pendingOrderList as $pendingOrder) {
         $pendingOrderDate = $pendingOrder->create_at;
-        if (substr($pendingOrderDate, 0, 10) === $dateToMatch) {
+        if (substr($pendingOrderDate, 0, 10) === $filterByDate) {
           $pendingOrders[] = $pendingOrder;
         }
       }
       foreach (User::findAll(["deleted_at" => "null"]) as $customer) {
-        if (substr($customer->created_at, 0, 10) === $dateToMatch) {
+        if (substr($customer->created_at, 0, 10) === $filterByDate) {
           $customerList[] = $customer;
         }
       }
       foreach (Order::findAll(["deleted_at" => "null"]) as $order) {
-        if (substr($order->create_at, 0, 10) === $dateToMatch) {
+        if (substr($order->create_at, 0, 10) === $filterByDate) {
           $newOrders[] = $order;
         }
       }
@@ -168,9 +173,7 @@ class DashboardController extends Controller
             "top5prdSold" => $top5prdSold,
             "categorySold" => $categorySold,
             "test" => $test,
-            "filterDate" => $filterDate,
-            "filterMonth" => $filterMonth,
-            "filterYear" => $filterYear,
+            "filterByDate" => $filterByDate,  
           ],
           "layouts/dashboard"
         )
