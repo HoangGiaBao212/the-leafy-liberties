@@ -59,13 +59,13 @@ $router->post("/dashboard/coupon/delete", [
 
 
 // slide
-$router->get("/dashboard/slide", [SlideController::class, "index"]);
-$router->get("/dashboard/slide/show", [SlideController::class, "show"]);
-$router->get("/dashboard/slide/create", [SlideController::class, "create"]);
-$router->post("/dashboard/slide/create", [SlideController::class, "create"]);
-$router->get("/dashboard/slide/update", [SlideController::class, "update"]);
-$router->post("/dashboard/slide/update", [SlideController::class, "update"]);
-$router->post("/dashboard/slide/delete", [SlideController::class, "delete"]);
+// $router->get("/dashboard/slide", [SlideController::class, "index"]);
+// $router->get("/dashboard/slide/show", [SlideController::class, "show"]);
+// $router->get("/dashboard/slide/create", [SlideController::class, "create"]);
+// $router->post("/dashboard/slide/create", [SlideController::class, "create"]);
+// $router->get("/dashboard/slide/update", [SlideController::class, "update"]);
+// $router->post("/dashboard/slide/update", [SlideController::class, "update"]);
+// $router->post("/dashboard/slide/delete", [SlideController::class, "delete"]);
 
 // user
 $router->get("/dashboard/user", [UserController::class, "index"]);
@@ -136,11 +136,11 @@ $router->post("/dashboard/permission/delete", [PermissionController::class, "del
 
 // setting
 
-$router->get("/dashboard/setting", [SettingController::class, "index"]);
-$router->post("/dashboard/setting", [SettingController::class, "create"]);
-$router->get("/dashboard/setting/update", [SettingController::class, "update"]);
-$router->post("/dashboard/setting/update", [SettingController::class, "update"]);
-$router->post("/dashboard/setting/delete", [SettingController::class, "delete"]);
+// $router->get("/dashboard/setting", [SettingController::class, "index"]);
+// $router->post("/dashboard/setting", [SettingController::class, "create"]);
+// $router->get("/dashboard/setting/update", [SettingController::class, "update"]);
+// $router->post("/dashboard/setting/update", [SettingController::class, "update"]);
+// $router->post("/dashboard/setting/delete", [SettingController::class, "delete"]);
 
 $router->get("/dashboard/import", [ImportController::class, "index"]);
 $router->get("/dashboard/import/create", [ImportController::class, "create"]);

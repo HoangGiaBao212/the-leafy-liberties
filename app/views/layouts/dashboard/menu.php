@@ -60,11 +60,11 @@ $menu = [
     "icon" => "fa-ticket",
     "url" => BASE_URI . "/dashboard/coupon",
   ],
-  "slide.access" => [
-    "name" => "Slides",
-    "icon" => "fa-sliders",
-    "url" => BASE_URI . "/dashboard/slide",
-  ],
+  // "slide.access" => [
+  //   "name" => "Slides",
+  //   "icon" => "fa-sliders",
+  //   "url" => BASE_URI . "/dashboard/slide",
+  // ],
   // "setting.access" => [
   //   "name" => "Settings",
   //   "icon" => "fa-cog",
