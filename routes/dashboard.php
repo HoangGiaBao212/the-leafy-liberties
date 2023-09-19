@@ -121,6 +121,9 @@ $router->get("/dashboard/author", [AuthorController::class, "index"]);
 $router->get("/dashboard/author/update", [AuthorController::class, "update"]);
 $router->post("/dashboard/author/update", [AuthorController::class, "update"]);
 $router->post("/dashboard/author/delete", [AuthorController::class, "delete"]);
+$router->get("/dashboard/author", [AuthorController::class, "index"]);
+$router->get("/dashboard/author/create", [AuthorController::class, "create"]);
+$router->post("/dashboard/author/create", [AuthorController::class, "create"]);
 
 
 // permission
