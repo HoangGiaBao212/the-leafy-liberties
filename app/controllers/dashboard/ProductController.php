@@ -254,11 +254,11 @@ class ProductController extends Controller
           }
           $product->name = $request->getParam("name");
           $product->image = $request->getParam("image");
-          // if (($request->getParam("image") == "Extension not allowed, please choose a jpeg, jpg, png file.") == false) {
-          //   $product->image = $request->getParam("old_img");
-          // } else {
+          if (($request->getParam("image") == "Extension not allowed, please choose a jpeg, jpg, png file.") == false) {
+            $product->image = $request->getParam("old_img");
+          } else {
                $product->image = $request->getParam("image");
-          // }
+          }
 
           if (Product::findOne(["isbn" => $request->getParam("isbn")]) != null && Product::findOne(["isbn" => $request->getParam("isbn")])->isbn != $product->isbn) {
             return $response->redirect(BASE_URI . "/dashboard/product/update?id=" . $product->id, 200, [
